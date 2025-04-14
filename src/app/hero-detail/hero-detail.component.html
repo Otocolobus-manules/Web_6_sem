@@ -1,17 +1,45 @@
-<div *ngIf="hero">
-  <h2>{{hero.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{hero.id}}</div>
-  <div>
-    <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="Hero name"/>
+<form [formGroup]="heroForm" (ngSubmit)="save()" class="hero-form">
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input id="name" type="text" formControlName="name">
   </div>
-  <button type="button" (click)="goBack()">go back</button>
-  <button type="button" (click)="save()">save</button>
-</div>
 
+  <div class="form-group">
+    <label for="protection_from_holy_damage">Protection from Holy Damage:</label>
+    <input id="protection_from_holy_damage" type="number" formControlName="protection_from_holy_damage">
+  </div>
 
-<!-- 
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
--->
+  <div class="form-group">
+    <label for="protection_from_darkness">Protection from Darkness:</label>
+    <input id="protection_from_darkness" type="number" formControlName="protection_from_darkness">
+  </div>
+
+  <div class="form-group">
+    <label for="the_level_of_insight">Level of Insight:</label>
+    <input id="the_level_of_insight" type="text" formControlName="the_level_of_insight">
+  </div>
+
+  <div class="form-group">
+    <label for="power">Power:</label>
+    <input id="power" type="text" formControlName="power">
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" formControlName="isLegendary">
+      Is Legendary
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <input type="checkbox" formControlName="isIshak">
+      Is Ishak
+    </label>
+  </div>
+
+  <div class="button-group">
+    <button type="submit">💾 Save</button>
+    <button type="button" (click)="goBack()">↩️ Go Back</button>
+  </div>
+</form>

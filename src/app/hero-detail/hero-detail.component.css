@@ -1,32 +1,48 @@
-/* HeroDetailComponent's private CSS styles */
-label {
-  color: #435960;
+.hero-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f4f4f4;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
   font-weight: bold;
+  margin-bottom: 5px;
 }
-input {
-  font-size: 1em;
-  padding: .5rem;
-}
-button {
-  margin-top: 20px;
-  margin-right: .5rem;
-  background-color: #eee;
-  padding: 1rem;
+
+.form-group input[type="text"],
+.form-group input[type="number"] {
+  padding: 6px;
   border-radius: 4px;
-  font-size: 1rem;
-}
-button:hover {
-  background-color: #cfd8dc;
-}
-button:disabled {
-  background-color: #eee;
-  color: #ccc;
-  cursor: auto;
+  border: 1px solid #aaa;
 }
 
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+}
+
+button[type="button"] {
+  background-color: #ccc;
+}

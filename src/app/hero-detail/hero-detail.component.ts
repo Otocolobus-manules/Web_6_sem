@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
@@ -11,22 +12,38 @@ import { HeroService } from '../hero.service';
   styleUrls: [ './hero-detail.component.css' ]
 })
 export class HeroDetailComponent implements OnInit {
-  hero: Hero | undefined;
+  heroForm!: FormGroup;
+  heroId!: number;
 
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.heroForm = this.fb.group({
+      name: [''],
+      protection_from_holy_damage: [''],
+      protection_from_darkness: [''],
+      the_level_of_insight: [''],
+      power: [''],
+      isLegendary: [''],
+      isIshak: ['']
+    });
+
     this.getHero();
   }
 
   getHero(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    this.heroId = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    this.heroService.getHero(this.heroId)
+      .subscribe(hero => {
+        if (hero) {
+          this.heroForm.patchValue(hero);
+        }
+      });
   }
 
   goBack(): void {
@@ -34,16 +51,12 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.hero) {
-      this.heroService.updateHero(this.hero)
-        .subscribe(() => this.goBack());
-    }
+    const updatedHero: Hero = {
+      id: this.heroId,
+      ...this.heroForm.value
+    };
+
+    this.heroService.updateHero(updatedHero)
+      .subscribe(() => this.goBack());
   }
 }
-
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/

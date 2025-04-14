@@ -6,6 +6,7 @@ export interface Hero {
   the_level_of_insight: string;
   power: string;
   isLegendary: boolean;
+  isIshak: boolean;
 }
 
 
