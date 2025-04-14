@@ -1,17 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Hero } from '../hero';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { HeroService } from '../hero.service';
+import { Hero } from '../hero';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css']
+  styleUrls: ['./heroes.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[] = [];
 
-  constructor(private heroService: HeroService) { }
+  constructor(
+    private heroService: HeroService,
+    private cdr: ChangeDetectorRef // импортируем ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.getHeroes();
@@ -19,7 +23,10 @@ export class HeroesComponent implements OnInit {
 
   getHeroes(): void {
     this.heroService.getHeroes()
-    .subscribe(heroes => this.heroes = heroes);
+      .subscribe(heroes => {
+        this.heroes = heroes;
+        this.cdr.markForCheck(); // Уведомляем Angular об изменении
+      });
   }
 
   add(name: string): void {
@@ -28,19 +35,14 @@ export class HeroesComponent implements OnInit {
     this.heroService.addHero({ name } as Hero)
       .subscribe(hero => {
         this.heroes.push(hero);
+        this.cdr.markForCheck(); // Уведомляем Angular об изменении
       });
   }
 
   delete(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
-    this.heroService.deleteHero(hero.id).subscribe();
+    this.heroService.deleteHero(hero.id).subscribe(() => {
+      this.cdr.markForCheck(); // Уведомляем Angular об изменении
+    });
   }
-
 }
-
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/
